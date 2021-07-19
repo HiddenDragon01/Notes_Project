@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="index.css">
+	<meta charset="utf-8">
+	<title> Notes </title>
+</head>
+<body>
+
+	<section>
+		
+		<h1> Notes </h1>
+
+		<div class = right> Title of Note to Add:  
+		<input id="title" type="text" required>
+
+
+	</br>
+	</br>
+	</br>
+		Details (maximum 500 characters):
+
+	</br>
+    </br>
+		<textarea id ="description" rows = "30" cols = "80" maxlength="500" onkeyup="charCount(this)" ></textarea>
+	</br>
+		<span id="textcount">0</span> of 500 characters
+	</div>
+	</br>
+	</br>
+		<button id = "save">Save Note</button>
+		<button id = "clear">Clear Form</button>
+
+	</br>
+	</br>
+
+		<div class = right> Title of Note to Delete:  
+		<input id="title_delete" type="text" required>
+	
+		<button id="delete_btn">Delete Note</button>
+
+	</br>
+	</br>
+
+		<fieldset>
+
+			<legend> Notes </legend>
+
+			<div id="notes"> </div>
+
+		</fieldset>
+
+
+	</section>
+	<script src="index.js"></script>
+
+</body>
+</html>
