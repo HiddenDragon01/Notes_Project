@@ -1,22 +1,23 @@
-let clear = document.getElementById('clear');
-let titleSelector = document.querySelectorAll('input');
-let descriptionSelector = document.querySelectorAll('textarea');
+
 const title = document.getElementById('title');
 const description = document.getElementById('description');
 
 const save = document.getElementById('save');
 const notes = document.getElementById('notes');
-const title_delete = document.getElementById('title_delete');
-const delete_btn = document.getElementById('delete_btn');
+const table = document.getElementById("myTable");
 const textCount = document.getElementById('textcount');
+const errmsg = document.getElementById('errmsg');
 
 
-clear.addEventListener('click', () => {
-	titleSelector.forEach(input => input.value = '');
-	descriptionSelector.forEach(input => input.value = '');
-});
+const searchInput = document.getElementById('search');
+
+
+let edit = 0;
+
+
 
 save.onclick = function() {
+
 
 	if (localStorage.length >= 15) {
 		return;
@@ -24,35 +25,134 @@ save.onclick = function() {
 	
 	const titleval = title.value;
 
+	let replaced = titleval.replace(/(<([^>]+)>)/ig, "");
+
+
 	const descriptionval = description.value;
 
-	if (titleval && descriptionval) {
-		localStorage.setItem(titleval, descriptionval);
-		location.reload();
+	let replaced_desk = descriptionval.replace(/(<([^>]+)>)/ig, "")
+
+	if (!replaced) {
+		return;
 	}
+
+	if (localStorage.getItem(replaced) === null || edit == 1) {
+
+		localStorage.setItem(replaced, replaced_desk);
+		location.reload();
+		edit = 0;
+
+	} else {
+
+		errmsg.innerHTML = "Sorry, that note has already been written.";
+
+	}
+	return false;
 
 	
 };
 
-delete_btn.addEventListener('click', () => {
-	let delete_title = title_delete.value;
-	localStorage.removeItem(delete_title);
-	location.reload();
-});
 
 function charCount(textarea) {
 	var length = textarea.value.length;
 	textCount.innerHTML = length;
 
-
-
 }
+
+var index;
+
+
+
 
 for (let i = 0; i < localStorage.length; i++) {
 
 		const key = localStorage.key(i);
 		const value = localStorage.getItem(key);
-		notes.innerHTML += `${key}: ${value} <br />`
+		var row = table.insertRow(0);
+  		var cell1 = row.insertCell(0);
+  		var cell2 = row.insertCell(1);
+  		var cell3 = row.insertCell(2);
+  		cell1.innerHTML = key;
+ 	    cell2.innerHTML = `<textarea id="description" rows="10" cols="30" maxlength="500" onkeyup="charCount(this)" readonly>${value}</textarea>`;
+ 	    cell3.innerHTML += `<button class="edit_btn">Edit</button>`;
+		cell3.innerHTML += `</br><button class="delete_btn">Delete</button>`;
+	
 
+
+		
 }
+
+var row = table.insertRow(0);
+var cell1 = row.insertCell(0);
+var cell2 = row.insertCell(1);
+cell1.innerHTML += "<h1> Title </h1>";
+cell2.innerHTML += "<h1> Description </h1>"
+
+const tableEl = document.querySelector('table');
+
+function onEditRow(e) {
+
+	if (!e.target.classList.contains("edit_btn")) {
+		return;
+	}
+
+	const btn = e.target;
+	var key = btn.closest("tr").cells[0].textContent;
+	var value= btn.closest("tr").cells[1].textContent;
+
+	title.value = key;
+	description.value = value;
+
+	edit = 1;
+
+	
+}
+
+function onDeleteRow(e) {
+
+	if (!e.target.classList.contains("delete_btn")) {
+		return;
+	}
+
+
+	var proceed = confirm("Are you sure you want to delete this note?");
+
+	if (proceed) {
+
+		const btn = e.target;
+
+		var key = btn.closest("tr").cells[0].textContent;
+
+		localStorage.removeItem(key);
+		location.reload();
+
+
+	
+	} 
+
+	
+}
+
+
+
+tableEl.addEventListener('click', onEditRow);
+tableEl.addEventListener('click', onDeleteRow);
+
+
+
+
+const rows = document.querySelectorAll('tr');
+
+searchInput.addEventListener("keyup", function (event) {
+
+	const q = event.target.value.toLowerCase();
+	rows.forEach(row => {
+		row.querySelector('td:nth-child(2)').textContent.toLowerCase().indexOf(q) !== -1 ? row.style.display = "" : row.style.display = 'none';
+	});
+
+});
+
+
+
+
 

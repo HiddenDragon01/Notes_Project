@@ -11,9 +11,21 @@
 		
 		<h1> Notes </h1>
 
-		<div class = right> Title of Note to Add:  
-		<input id="title" type="text" required>
+		<div class="right"> Title of Note to Add: </br> </br>
 
+		<p id = "errmsg">	
+	
+
+		</p>
+
+
+
+	<form id="form_notes" class="class_notes">
+
+
+			<input id="title" type="text" required>
+
+		
 
 	</br>
 	</br>
@@ -22,37 +34,43 @@
 
 	</br>
     </br>
-		<textarea id ="description" rows = "30" cols = "80" maxlength="500" onkeyup="charCount(this)" ></textarea>
+		<textarea id="description" rows="30" cols="80" maxlength="500" onkeyup="charCount(this)" ></textarea>
 	</br>
 		<span id="textcount">0</span> of 500 characters
-	</div>
 	</br>
 	</br>
-		<button id = "save">Save Note</button>
-		<button id = "clear">Clear Form</button>
+		
+		<input type = "reset" value = "Clear Form">
+		<input type="submit" value="Save Note" id="save">
+
+	</form>
 
 	</br>
-	</br>
 
-		<div class = right> Title of Note to Delete:  
-		<input id="title_delete" type="text" required>
 	
-		<button id="delete_btn">Delete Note</button>
+
+		
 
 	</br>
 	</br>
 
-		<fieldset>
+		
+		<input type="text" name="search" id="search" placeholder="Search by description...">
 
-			<legend> Notes </legend>
+		<table id="myTable">
 
-			<div id="notes"> </div>
 
-		</fieldset>
+		</table>
+
+		</br>
+		
+
 
 
 	</section>
 	<script src="index.js"></script>
+
+
 
 </body>
 </html>
