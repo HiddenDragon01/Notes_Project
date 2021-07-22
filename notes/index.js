@@ -7,6 +7,7 @@ const notes = document.getElementById('notes');
 const table = document.getElementById("myTable");
 const textCount = document.getElementById('textcount');
 const errmsg = document.getElementById('errmsg');
+const delete_all = document.getElementById('delete_all');
 
 
 const searchInput = document.getElementById('search');
@@ -135,6 +136,42 @@ function onDeleteRow(e) {
 
 
 
+const del = []
+
+searchInput.addEventListener("keyup", function (event) {
+
+	const q = event.target.value.toLowerCase();
+	rows.forEach(row => {
+		row.querySelector('td:nth-child(2)').textContent.toLowerCase().indexOf(q) !== -1 ? (row.style.display = "", del.push(row.cells[0].textContent)) : row.style.display = 'none';
+	});
+
+
+	if (q != "") {
+
+		delete_all.style.display = "block";
+
+	} else {
+		delete_all.style.display = "none";
+	}
+
+
+
+});
+
+delete_all.onclick = function() {
+
+	del.forEach(d => {
+		localStorage.removeItem(d);
+	});
+	
+
+	del.length = 0;
+	location.reload();
+
+
+};
+
+
 tableEl.addEventListener('click', onEditRow);
 tableEl.addEventListener('click', onDeleteRow);
 
@@ -143,14 +180,11 @@ tableEl.addEventListener('click', onDeleteRow);
 
 const rows = document.querySelectorAll('tr');
 
-searchInput.addEventListener("keyup", function (event) {
 
-	const q = event.target.value.toLowerCase();
-	rows.forEach(row => {
-		row.querySelector('td:nth-child(2)').textContent.toLowerCase().indexOf(q) !== -1 ? row.style.display = "" : row.style.display = 'none';
-	});
 
-});
+
+
+
 
 
 
