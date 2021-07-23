@@ -187,6 +187,8 @@ function onSelectAll() {
 
 	checkboxes = document.getElementsByTagName('input');
 
+	let allSelected = 1;
+
     for (var i=0; i<checkboxes.length; i++)  {
 
         if (checkboxes[i].type == 'checkbox')   {
@@ -194,12 +196,44 @@ function onSelectAll() {
         	var row = checkboxes[i].closest("tr");
 
         	if (row.style.display !== 'none') {
-        		checkboxes[i].checked = true;
+
+        		if (checkboxes[i].checked != true) {
+        			allSelected = 0;
+        			checkboxes[i].checked = true;
+        		}
+        
         	}
 
 
         }
     }
+
+    if (allSelected) {
+
+    	for (var i = 0; i < checkboxes.length; i++) {
+
+
+    		if (checkboxes[i].type == 'checkbox') {
+
+    			var row = checkboxes[i].closest("tr");
+
+        		if (row.style.display !== 'none') {
+
+        			checkboxes[i].checked = false;
+        			
+        
+        		}
+
+    		}
+
+
+    	}
+
+
+
+
+    }
+
 
 
 
