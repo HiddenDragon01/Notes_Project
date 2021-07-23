@@ -78,7 +78,7 @@ for (let i = 0; i < localStorage.length; i++) {
  	    cell2.innerHTML = `<textarea id="description" rows="10" cols="30" maxlength="500" onkeyup="charCount(this)" readonly>${value}</textarea>`;
  	    cell3.innerHTML += `<button class="edit_btn">Edit</button>`;
  	    cell3.innerHTML += `</br><button class="delete_btn">Delete</button>`;
-		cell4.innerHTML += `<input type="checkbox" id = "check">`;
+		cell4.innerHTML += `<input type="checkbox" class="check">`;
 
 
 	
@@ -92,6 +92,8 @@ var cell1 = row.insertCell(0);
 var cell2 = row.insertCell(1);
 cell1.innerHTML += "<h1> Title </h1>";
 cell2.innerHTML += "<h1> Description </h1>"
+
+
 
 const tableEl = document.querySelector('table');
 
@@ -140,7 +142,7 @@ function onDeleteRow(e) {
 
 
 const rows = document.querySelectorAll('tr');
-
+let checkboxes = document.getElementsByTagName('input');
 
 
 searchInput.addEventListener("keyup", function (event) {
@@ -149,7 +151,7 @@ searchInput.addEventListener("keyup", function (event) {
 
 	// Uncheck boxes every search
 
-	checkboxes = document.getElementsByTagName('input');
+
 
     for (var i=0; i<checkboxes.length; i++)  {
 
@@ -169,6 +171,8 @@ searchInput.addEventListener("keyup", function (event) {
 		row.querySelector('td:nth-child(2)').textContent.toLowerCase().indexOf(q) !== -1 ? row.style.display = "" : row.style.display = 'none';
 	});
 
+	select_all.value = "Select all";
+
 
 
 
@@ -183,9 +187,14 @@ tableEl.addEventListener('click', onDeleteRow);
 
 
 
+
+
+
+
+
 function onSelectAll() {
 
-	checkboxes = document.getElementsByTagName('input');
+	
 
 	let allSelected = 1;
 
@@ -210,6 +219,9 @@ function onSelectAll() {
 
     if (allSelected) {
 
+
+    	select_all.value = "Select all";
+
     	for (var i = 0; i < checkboxes.length; i++) {
 
 
@@ -232,12 +244,15 @@ function onSelectAll() {
 
 
 
+    } else {
+    	select_all.value = "Deselect all";
     }
 
 
 
-
 }
+
+
 
 
 
@@ -246,7 +261,7 @@ select_all.addEventListener('click', onSelectAll);
 
 delete_all.onclick = function() {
 
-	checkboxes = document.getElementsByTagName('input');
+
 
     for (var i=0; i<checkboxes.length; i++)  {
 
@@ -261,7 +276,6 @@ delete_all.onclick = function() {
         	location.reload();
         	
 
-
         }
     }
 
@@ -271,9 +285,87 @@ delete_all.onclick = function() {
 };
 
 
+const checkbox = document.getElementsByClassName("check");
 
 
+var cbs = document.querySelectorAll('[type="checkbox"]');
+[].forEach.call(cbs, function (cb) {
+    cb.addEventListener("click", function(){
+        if (event.currentTarget.checked) {
+
+	  	let checked = 1;
+
+		for (var i=0; i<checkboxes.length; i++)  {
+
+	        if (checkboxes[i].type == 'checkbox')   {
+
+	        	var row = checkboxes[i].closest("tr");
+
+	        	if (row.style.display !== 'none') {
+
+	        		if (checkboxes[i].checked != true) {
+	        			checked = 0;
+
+	        		}
+	        
+	        	}
 
 
+	        }
+
+		}	
+
+	
+
+		if (checked) {
+			select_all.value = "Deselect all";
+		}
+	    
+	  } else {
+	    select_all.value = "Select all";
+	  }
+    });
+});
+
+/*
+checkbox.forEach (checkrow =>
+	checkrow.addEventListener('change', (event) => {
+
+	  if (event.currentTarget.checked) {
+
+	  	let checked = 1;
+
+		for (var i=0; i<checkboxes.length; i++)  {
+
+	        if (checkboxes[i].type == 'checkbox')   {
+
+	        	var row = checkboxes[i].closest("tr");
+
+	        	if (row.style.display !== 'none') {
+
+	        		if (checkboxes[i].checked != true) {
+	        			checked = 0;
+
+	        		}
+	        
+	        	}
 
 
+	        }
+
+		}	
+
+		console.log(checked);
+
+		if (checked) {
+			select_all.value = "Deselect all";
+		}
+	    
+	  } else {
+	    select_all.value = "Select all";
+	  }
+	})
+
+
+)
+*/
