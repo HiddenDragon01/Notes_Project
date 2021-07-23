@@ -8,7 +8,7 @@ const table = document.getElementById("myTable");
 const textCount = document.getElementById('textcount');
 const errmsg = document.getElementById('errmsg');
 const delete_all = document.getElementById('delete_all');
-
+const select_all = document.getElementById('select_all');
 
 const searchInput = document.getElementById('search');
 
@@ -73,10 +73,14 @@ for (let i = 0; i < localStorage.length; i++) {
   		var cell1 = row.insertCell(0);
   		var cell2 = row.insertCell(1);
   		var cell3 = row.insertCell(2);
+  		var cell4 = row.insertCell(3);
   		cell1.innerHTML = key;
  	    cell2.innerHTML = `<textarea id="description" rows="10" cols="30" maxlength="500" onkeyup="charCount(this)" readonly>${value}</textarea>`;
  	    cell3.innerHTML += `<button class="edit_btn">Edit</button>`;
-		cell3.innerHTML += `</br><button class="delete_btn">Delete</button>`;
+ 	    cell3.innerHTML += `</br><button class="delete_btn">Delete</button>`;
+		cell4.innerHTML += `<input type="checkbox" id = "check">`;
+
+
 	
 
 
@@ -135,41 +139,42 @@ function onDeleteRow(e) {
 }
 
 
+const rows = document.querySelectorAll('tr');
 
-const del = []
+
 
 searchInput.addEventListener("keyup", function (event) {
 
+
+
+	// Uncheck boxes every search
+
+	checkboxes = document.getElementsByTagName('input');
+
+    for (var i=0; i<checkboxes.length; i++)  {
+
+        if (checkboxes[i].type == 'checkbox')   {
+
+        	
+        	checkboxes[i].checked = false;
+        	
+
+
+        }
+    }
+
+
 	const q = event.target.value.toLowerCase();
 	rows.forEach(row => {
-		row.querySelector('td:nth-child(2)').textContent.toLowerCase().indexOf(q) !== -1 ? (row.style.display = "", del.push(row.cells[0].textContent)) : row.style.display = 'none';
+		row.querySelector('td:nth-child(2)').textContent.toLowerCase().indexOf(q) !== -1 ? row.style.display = "" : row.style.display = 'none';
 	});
 
-
-	if (q != "") {
-
-		delete_all.style.display = "block";
-
-	} else {
-		delete_all.style.display = "none";
-	}
 
 
 
 });
 
-delete_all.onclick = function() {
 
-	del.forEach(d => {
-		localStorage.removeItem(d);
-	});
-	
-
-	del.length = 0;
-	location.reload();
-
-
-};
 
 
 tableEl.addEventListener('click', onEditRow);
@@ -178,10 +183,58 @@ tableEl.addEventListener('click', onDeleteRow);
 
 
 
-const rows = document.querySelectorAll('tr');
+function onSelectAll() {
+
+	checkboxes = document.getElementsByTagName('input');
+
+    for (var i=0; i<checkboxes.length; i++)  {
+
+        if (checkboxes[i].type == 'checkbox')   {
+
+        	var row = checkboxes[i].closest("tr");
+
+        	if (row.style.display !== 'none') {
+        		checkboxes[i].checked = true;
+        	}
+
+
+        }
+    }
 
 
 
+}
+
+
+
+select_all.addEventListener('click', onSelectAll);
+
+
+delete_all.onclick = function() {
+
+	checkboxes = document.getElementsByTagName('input');
+
+    for (var i=0; i<checkboxes.length; i++)  {
+
+        if (checkboxes[i].checked == true)   {
+
+        	
+        	var row = checkboxes[i].closest("tr");
+
+        	let key = row.cells[0].textContent;
+
+        	localStorage.removeItem(key);
+        	location.reload();
+        	
+
+
+        }
+    }
+
+
+
+
+};
 
 
 
