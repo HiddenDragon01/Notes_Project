@@ -17,6 +17,7 @@ let edit = 0;
 
 
 
+
 save.onclick = function() {
 
 
@@ -60,10 +61,6 @@ function charCount(textarea) {
 
 }
 
-var index;
-
-
-
 
 for (let i = 0; i < localStorage.length; i++) {
 
@@ -75,16 +72,12 @@ for (let i = 0; i < localStorage.length; i++) {
   		var cell3 = row.insertCell(2);
   		var cell4 = row.insertCell(3);
   		cell1.innerHTML = key;
- 	    cell2.innerHTML = `<textarea id="description" rows="10" cols="30" maxlength="500" onkeyup="charCount(this)" readonly>${value}</textarea>`;
+ 	    cell2.innerHTML = `<textarea id="description" rows="10" cols="30" maxlength="500" readonly>${value}</textarea>`;
  	    cell3.innerHTML += `<button class="edit_btn">Edit</button>`;
  	    cell3.innerHTML += `</br><button class="delete_btn">Delete</button>`;
 		cell4.innerHTML += `<input type="checkbox" class="check">`;
 
-
 	
-
-
-		
 }
 
 var row = table.insertRow(0);
@@ -198,7 +191,7 @@ function onSelectAll() {
 
 	let allSelected = 1;
 
-    for (var i=0; i<checkboxes.length; i++)  {
+    for (var i = 0; i < checkboxes.length; i++)  {
 
         if (checkboxes[i].type == 'checkbox')   {
 
@@ -238,10 +231,7 @@ function onSelectAll() {
 
     		}
 
-
     	}
-
-
 
 
     } else {
@@ -327,45 +317,4 @@ var cbs = document.querySelectorAll('[type="checkbox"]');
     });
 });
 
-/*
-checkbox.forEach (checkrow =>
-	checkrow.addEventListener('change', (event) => {
 
-	  if (event.currentTarget.checked) {
-
-	  	let checked = 1;
-
-		for (var i=0; i<checkboxes.length; i++)  {
-
-	        if (checkboxes[i].type == 'checkbox')   {
-
-	        	var row = checkboxes[i].closest("tr");
-
-	        	if (row.style.display !== 'none') {
-
-	        		if (checkboxes[i].checked != true) {
-	        			checked = 0;
-
-	        		}
-	        
-	        	}
-
-
-	        }
-
-		}	
-
-		console.log(checked);
-
-		if (checked) {
-			select_all.value = "Deselect all";
-		}
-	    
-	  } else {
-	    select_all.value = "Select all";
-	  }
-	})
-
-
-)
-*/
